@@ -1,0 +1,1 @@
+java -Dadapter.path="P:/Project/world-engine/adapter" -jar engine.jar

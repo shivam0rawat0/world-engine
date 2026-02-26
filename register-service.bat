@@ -1,0 +1,1 @@
+for /R adapter %%f in (*.java) do javac -cp engine.jar "%%f"

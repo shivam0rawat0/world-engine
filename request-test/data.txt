@@ -1,0 +1,4 @@
+capability=getBalance
+entity=person
+isNative=1
+account-number=aabbccdd
