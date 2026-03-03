@@ -17,7 +17,7 @@ REM Package into engine.jar
 jar cfm engine.jar out\META-INF/MANIFEST.MF -C out .
 
 REM Optional cleanup
-REM ::rmdir /s /q out
+rmdir /s /q out
 REM ::del /f *.class
 
 echo Build complete.

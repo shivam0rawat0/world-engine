@@ -16,10 +16,10 @@ public class AdapterLoader extends ClassLoader {
         this.classDir = classDir;
     }
 
-    private Class<?> loadClassFromFile(String capability,String entity) throws IOException {
+    private Class<?> loadClassFromFile(String capability, String entity) throws IOException {
         String className = capability + entity + ".class";
         String classPath = capability + "." + entity + "." + capability + entity;
-        File classFile = new File(classDir + "/"+ capability + "/" + entity + "/" + className);
+        File classFile = new File(classDir + "/" + capability + "/" + entity + "/" + className);
 
         System.out.println("cn: " + className);
         System.out.println("cp: " + classPath);
@@ -28,19 +28,21 @@ public class AdapterLoader extends ClassLoader {
         byte[] classBytes = null;
         if (classFile.exists()) {
             classBytes = Files.readAllBytes(classFile.toPath());
-        } else {
-            System.out.println("Adaptor doesn't exist:" + className);
+            return defineClass(root + classPath, classBytes, 0, classBytes.length);
         }
-        return defineClass(root + classPath, classBytes, 0, classBytes.length);
+        throw new IOException("Adaptor doesn't exist:" + className);
     }
 
-    public AdapterLayer getAdaptor(String capability,String entity) {
-        String adapter= capability + entity;
+    public AdapterLayer getAdaptor(String capability, String entity) {
+        String adapter = capability + entity;
         if (!adapters.containsKey(adapter)) {
             try {
                 Class<?> implClass = loadClassFromFile(capability, entity);
                 adapters.put(adapter, (AdapterLayer) implClass.getDeclaredConstructor().newInstance());
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                System.out.println("Adaptor error: " + e.getMessage());
+                return null;
+            }
         }
         return adapters.get(adapter);
     }

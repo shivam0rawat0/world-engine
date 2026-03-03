@@ -1,4 +1,4 @@
-capability=getBalance
+capability=hold
 entity=person
 isNative=1
 account-number=aabbccdd
